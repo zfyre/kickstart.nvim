@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -207,21 +207,27 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Move line down with Alt + Down
 vim.keymap.set('n', '<A-Down>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
-vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down', silent = true })
-vim.keymap.set('i', '<A-Down>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down', silent = true })
+-- vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down', silent = true })
+vim.keymap.set('i', '<A-Down>', '<Esc>:m .+1<CR>==gi', { desc = 'Move selected lines down', silent = true })
 
 -- Move line up with Alt + Up
 vim.keymap.set('n', '<A-Up>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
-vim.keymap.set('v', '<A-Up>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up', silent = true })
-vim.keymap.set('i', '<A-Up>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up', silent = true })
+-- vim.keymap.set('v', '<A-Up>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up', silent = true })
+vim.keymap.set('i', '<A-Up>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up', silent = true })
 
 -- Copy (duplicate) line down with Shift + Alt + Down
-vim.keymap.set('v', '<C-A-Down>', ":t '>+1<CR>gv=gv", { desc = 'Duplicate selection below', silent = true })
+-- vim.keymap.set('v', '<C-A-Down>', ":t '>+1<CR>gv=gv", { desc = 'Duplicate selection below', silent = true })
 vim.keymap.set('n', '<C-A-Down>', ':t .<CR>', { desc = 'Duplicate line below', silent = true })
-vim.keymap.set('i', '<C-A-Down>', ':t .<CR>', { desc = 'Duplicate line below', silent = true })
+vim.keymap.set('i', '<C-A-Down>', '<Esc>:t .<CR>==gi', { desc = 'Duplicate line below', silent = true })
 
 -- Delete previous word using Ctrl+Backspace
-vim.keymap.set('i', '<C-BS>', '<C-w>', { desc = 'Delete previous word', silent = true })
+vim.keymap.set('i', '<C-BS>', '<Esc><C-w>==gi', { desc = 'Delete previous word', silent = true })
+vim.keymap.set('i', '<C-H>', '<C-w>', { desc = 'Delete previous word', silent = true })
+
+-- Use black hole register for delete/change so it doesn't pollute clipboard
+vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { desc = 'Delete without yanking' })
+-- vim.keymap.set({ "n", "v" }, "c", '"_c', { desc = "Change without yanking" })
+-- vim.keymap.set({ "n", "v" }, "x", '"_x', { desc = "Cut char without yanking" })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
